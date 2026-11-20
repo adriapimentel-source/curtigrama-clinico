@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Curtigrama – versão clínica</title>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fs:18px; --lh:1.6; --ls:0; --ws:0;
+  --font:'Atkinson Hyperlegible',Verdana,sans-serif;
+  --bg1:#f3f6fa; --bg2:#fbf8f3; --ink:#1c2733; --muted:#55616e; --card:#ffffff; --line:#e3e7ec;
+  --primary:#2b5c8a; --primary-ink:#ffffff; --shadow:0 8px 28px rgba(28,39,51,.08), 0 1px 3px rgba(28,39,51,.06);
+  --q1:#2E8B57; --q2:#2F6DB5; --q3:#C96F1A; --q4:#7B4FA0;
+  --sym:#4FC3F7;--q1l:#eaf6ef; --q2l:#e9f1fb; --q3l:#fcf0e4; --q4l:#f2eaf8; --focus:#ffbf00; --bw:0px;
+}
+body.contrast{--bg1:#000;--bg2:#000;--ink:#fff;--muted:#eaeaea;--card:#000;--line:#fff;--primary:#fff;--primary-ink:#000;--shadow:none;--bw:2px;
+  --q1:#7CFFB0;--q2:#8CC4FF;--q3:#FFB870;--q4:#D9B3FF;--q1l:#000;--q2l:#000;--q3l:#000;--q4l:#000}
+body.lexend{--font:'Lexend',Verdana,sans-serif}
+body.calm *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+*{box-sizing:border-box}
+html{font-size:var(--fs);scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:var(--font);line-height:var(--lh);
+  letter-spacing:calc(var(--ls)*1em);word-spacing:calc(var(--ws)*1em);
+  background:linear-gradient(180deg,var(--bg1),var(--bg2));background-attachment:fixed}
+.wrap{max-width:980px;margin:0 auto;padding:18px 18px 130px}
+button,textarea,input,select{font:inherit;color:inherit;letter-spacing:inherit}
+button{cursor:pointer}
+:focus-visible{outline:4px solid var(--focus);outline-offset:3px;border-radius:10px}
+p{text-align:justify;hyphens:auto;margin:.4rem 0 .9rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* topo */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 2px 14px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:12px;background:var(--card);box-shadow:var(--shadow);border:var(--bw) solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:8px}
+.logo i{border-radius:50%;display:block}
+.logo i:nth-child(1){background:var(--q1)}.logo i:nth-child(2){background:var(--q2)}.logo i:nth-child(3){background:var(--q3)}.logo i:nth-child(4){background:var(--q4)}
+.brand b{font-size:1.25rem;letter-spacing:.01em}
+.brand small{display:block;color:var(--muted);font-size:.75rem;margin-top:-4px}
+.pill{border:var(--bw) solid var(--line);background:var(--card);box-shadow:var(--shadow);border-radius:999px;padding:.55rem 1.05rem;font-weight:700;min-height:46px;display:inline-flex;align-items:center;gap:8px}
+.pill:hover{transform:translateY(-1px)}
+
+/* progresso */
+.progress{margin:2px 2px 18px}
+.plabel{font-size:.85rem;color:var(--muted);font-weight:700;margin-bottom:6px;display:flex;justify-content:space-between}
+.track{height:10px;border-radius:999px;background:var(--line);overflow:hidden}
+body.contrast .track{background:#333}
+.track div{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--q1),var(--q2),var(--q4));transition:width .35s}
+body.contrast .track div{background:#fff}
+.dots{display:flex;justify-content:space-between;margin-top:10px;gap:4px}
+.dots button{flex:1;border:0;background:transparent;font-size:.78rem;font-weight:700;color:var(--muted);padding:.3rem .1rem;border-radius:10px;min-height:40px}
+.dots button[aria-current="step"]{color:var(--ink);background:var(--card);box-shadow:var(--shadow);border:var(--bw) solid var(--line)}
+@media (max-width:560px){.dots button span{display:none}.dots button::before{content:attr(data-n);font-size:.95rem}}
+.sync{font-size:.8rem;color:var(--muted);text-align:right;min-height:1.2em;margin:4px 2px 0}
+.codebar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;border-radius:16px;padding:8px 14px;background:var(--q1l);border:var(--bw) solid var(--line);font-size:.85rem;margin-top:10px}
+.codebar b{font-size:1.05rem;letter-spacing:.08em}
+.codebar button{border:2px solid var(--line);background:var(--card);border-radius:999px;padding:.2rem .8rem;font-weight:700;min-height:40px}
+.codebar:empty{display:none}
+.bigcode{font-size:2.2rem;font-weight:700;letter-spacing:.14em;text-align:center;padding:14px 10px;margin:12px 0;border-radius:18px;background:var(--q1l);border:3px dashed var(--q1);word-break:break-all;user-select:all}
+body.contrast .bigcode{border-color:#fff}
+.codepanel{border-radius:26px;background:var(--q1l);border:3px solid var(--q1);padding:20px 22px;margin-bottom:16px}
+body.contrast .codepanel{border-color:#fff}
+.resume{border-radius:22px;background:var(--q1l);border:var(--bw) solid var(--line);padding:14px 18px;margin:0 0 16px}
+.resume summary{font-weight:700;cursor:pointer;min-height:36px;display:flex;align-items:center}
+
+/* conteúdo */
+h2{font-size:1.55rem;line-height:1.25;margin:.2rem 0 .5rem}
+.lead{color:var(--muted);font-size:1.02rem}
+.panel{background:var(--card);border-radius:26px;box-shadow:var(--shadow);border:var(--bw) solid var(--line);padding:22px 24px;margin-bottom:16px}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0}
+@media (max-width:760px){.how{grid-template-columns:1fr}}
+.how>div{border-radius:20px;padding:16px;border:var(--bw) solid var(--line)}
+.how>div:nth-child(1){background:var(--q1l)}.how>div:nth-child(2){background:var(--q2l)}.how>div:nth-child(3){background:var(--q4l)}
+.how .n{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;margin-bottom:8px}
+.how>div:nth-child(1) .n{background:#2E8B57}.how>div:nth-child(2) .n{background:#2F6DB5}.how>div:nth-child(3) .n{background:#7B4FA0}
+body.contrast .how .n{background:#fff!important;color:#000}
+.how b{display:block;margin-bottom:2px}
+.how span{font-size:.92rem;color:var(--muted)}
+.callout{display:flex;gap:12px;align-items:flex-start;border-radius:18px;padding:14px 16px;background:var(--q2l);border:var(--bw) solid var(--line);font-size:.95rem;margin-top:12px}
+.callout.soft{background:transparent;border:2px dashed var(--line);color:var(--muted)}
+.callout.ok{background:var(--q1l)}
+.callout.warn{background:var(--q3l)}
+
+/* formulário de identificação */
+.field{display:grid;gap:4px;margin:12px 0}
+.field label{font-weight:700}
+.field small{color:var(--muted);font-size:.85rem}
+.field input[type=text],.field input[type=date],.field select{width:100%;min-height:50px;border-radius:14px;border:2px solid var(--line);background:var(--card);padding:.5rem .9rem}
+.field input:focus,.field select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--focus)}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+@media (max-width:640px){.fgrid{grid-template-columns:1fr}}
+.consent{display:flex;gap:12px;align-items:flex-start;border-radius:18px;padding:14px 16px;background:var(--q4l);border:var(--bw) solid var(--line);margin-top:8px;font-size:.95rem}
+.consent input{width:26px;height:26px;flex:0 0 26px;margin-top:2px;accent-color:var(--primary)}
+.consent label{cursor:pointer}
+.banner{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;border-radius:18px;padding:14px 16px;background:var(--q3l);border:var(--bw) solid var(--line);margin-bottom:14px}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:700px){.grid{grid-template-columns:1fr}}
+.quad{position:relative;border-radius:24px;padding:18px 18px 16px 24px;box-shadow:var(--shadow);border:var(--bw) solid var(--line);overflow:hidden}
+.quad::before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--c)}
+.quad.c1{--c:var(--q1);background:var(--q1l)}.quad.c2{--c:var(--q2);background:var(--q2l)}
+.quad.c3{--c:var(--q3);background:var(--q3l)}.quad.c4{--c:var(--q4);background:var(--q4l)}
+.quad label,.quad .t{display:block;font-weight:700;font-size:1.12rem}
+.hint{display:block;color:var(--muted);font-size:.88rem;margin:2px 0 10px}
+.eg{display:block;color:var(--muted);font-size:.85rem;font-style:italic;margin:-4px 0 10px}
+.quad textarea{width:100%;min-height:9rem;border:2px solid transparent;border-radius:16px;padding:.8rem .9rem;background:var(--card);line-height:var(--lh);resize:vertical;box-shadow:inset 0 0 0 1px var(--line)}
+body.contrast .quad textarea{border-color:#fff}
+.quad textarea:focus{outline:none;box-shadow:inset 0 0 0 3px var(--c)}
+.empty{color:var(--muted);font-style:italic}
+.pill svg{width:1.5em;height:1.5em;flex:0 0 auto}
+.dhead h2 svg{width:1.5em;height:1.5em}
+.dhead h2{display:flex;align-items:center;gap:10px}
+
+/* matriz */
+.mseg{display:flex;justify-content:center;margin:4px 0 14px;scroll-margin-top:12px}
+@media (max-width:899px){.mseg button[data-mv="both"]{display:none}}
+.mwrap{display:grid;gap:20px}
+.mwrap.both{grid-template-columns:1fr 1fr;gap:22px}
+.mx .sub{margin:0 2px 8px}
+.mgrid{display:grid;grid-template-columns:2.2rem 1fr 1fr;grid-template-rows:auto 1fr 1fr;gap:10px;height:clamp(340px,calc(100vh - 250px),700px)}
+.mgrid.mini{height:360px}
+.ax{font-size:.8rem;font-weight:700;color:var(--muted);text-align:center;align-self:end}
+.ay{writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-size:.8rem;font-weight:700;color:var(--muted);display:flex;align-items:center;justify-content:center}
+.mcell{position:relative;border-radius:18px;padding:10px 12px 10px 18px;overflow:hidden;box-shadow:var(--shadow);border:var(--bw) solid var(--line);display:flex;flex-direction:column;min-height:0;cursor:zoom-in}
+.mcell::before{content:"";position:absolute;left:0;top:0;bottom:0;width:7px;background:var(--c)}
+.mcell.c1{--c:var(--q1);background:var(--q1l)}.mcell.c2{--c:var(--q2);background:var(--q2l)}.mcell.c3{--c:var(--q3);background:var(--q3l)}.mcell.c4{--c:var(--q4);background:var(--q4l)}
+.mcell .t{font-weight:700;font-size:.9rem;line-height:1.25}
+.mcell .txt{flex:1;overflow:auto;white-space:pre-wrap;font-size:.92rem;margin-top:4px}
+.zhint{text-align:center;color:var(--muted);font-size:.85rem;margin:10px 0 0}
+.ztxt{white-space:pre-wrap;max-height:60vh;overflow:auto;font-size:1.05rem}
+
+/* guias e perguntas */
+.tips{border-radius:22px;background:var(--q2l);border:var(--bw) solid var(--line);padding:14px 18px;margin:0 0 16px}
+.tips summary{font-weight:700;cursor:pointer;min-height:36px;display:flex;align-items:center}
+.tips ol,.tips ul{margin:8px 0 2px;padding-left:1.3rem}.tips li{margin:.3rem 0}
+.tips.alt{background:var(--q1l)}
+.warm{border-radius:24px;background:var(--q4l);border:var(--bw) solid var(--line);box-shadow:var(--shadow);padding:18px 20px;margin-bottom:6px}
+.warm .qt{font-weight:700;font-size:1.08rem;margin-bottom:6px}
+.warm ul{margin:4px 0 12px;padding-left:1.3rem}.warm li{margin:.25rem 0}
+.warm textarea,.notes textarea{width:100%;min-height:6rem;border-radius:16px;padding:.8rem .9rem;border:0;background:var(--card);box-shadow:inset 0 0 0 1px var(--line);resize:vertical;line-height:var(--lh)}
+body.contrast .warm textarea,body.contrast .notes textarea{background:#000;box-shadow:none;border:2px solid #fff}
+.warm textarea:focus,.qc textarea:focus,.notes textarea:focus{outline:none;box-shadow:inset 0 0 0 3px var(--primary)}
+.notes{margin-top:16px}
+.step-h{font-size:1.1rem;font-weight:700;margin:20px 2px 10px;display:flex;align-items:center;gap:10px}
+.step-h::after{content:"";flex:1;height:2px;background:var(--line);border-radius:2px}
+.refbox{background:var(--bg1);border-radius:16px;padding:10px 14px;margin:0 0 10px;border-left:6px solid var(--c,var(--primary))}
+body.contrast .refbox{background:#000;border:2px solid #fff;border-left-width:6px}
+.refbox.c1{--c:var(--q1)}.refbox.c2{--c:var(--q2)}.refbox.c3{--c:var(--q3)}.refbox.c4{--c:var(--q4)}
+.refbox .rl{font-weight:700;font-size:.8rem;color:var(--muted);margin-bottom:2px}
+.refbox .rt{white-space:pre-wrap;max-height:9rem;overflow:auto}
+.refgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.refgrid .refbox{margin:0}
+.refgrid .rt{max-height:6rem;font-size:.9rem}
+@media (max-width:640px){.refgrid{grid-template-columns:1fr}}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}
+.chip{border:2px solid var(--line);background:var(--card);border-radius:999px;padding:.25rem .8rem;font-size:.85rem;font-weight:700;min-height:40px}
+.chip[aria-pressed="true"]{background:var(--primary);color:var(--primary-ink);border-color:transparent}
+.rlab{font-size:.8rem;font-weight:700;color:var(--muted);margin:6px 2px 4px}
+.sub{font-size:1.1rem;margin:18px 2px 10px;font-weight:700}
+.panel .sub:first-child{margin-top:0}
+.qs{display:grid;gap:16px}
+.qc{border-radius:24px;margin-bottom:0;background:var(--card);box-shadow:var(--shadow);border:var(--bw) solid var(--line);padding:18px 20px}
+.qc .qt{display:flex;gap:12px;align-items:flex-start;font-weight:700;font-size:1.08rem;margin-bottom:10px}
+.qc .num{flex:0 0 34px;height:34px;border-radius:50%;background:var(--primary);color:var(--primary-ink);display:grid;place-items:center;font-size:.95rem}
+.qc textarea{width:100%;min-height:7rem;border-radius:16px;padding:.8rem .9rem;border:0;background:var(--bg1);box-shadow:inset 0 0 0 1px var(--line);resize:vertical;line-height:var(--lh)}
+body.contrast .qc textarea{background:#000;box-shadow:none;border:2px solid #fff}
+body.contrast .qc textarea:focus{outline:3px solid var(--focus)}
+
+/* salvar */
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.actions .btn{flex:1 1 200px}
+.stat{font-weight:700;margin:10px 2px 0}
+.stat.ok{color:var(--q1)}.stat.err{color:var(--q3)}
+body.contrast .stat.ok,body.contrast .stat.err{color:#fff}
+
+/* modo foco */
+body.focusmode .grid,body.focusmode .qs{grid-template-columns:1fr}
+body.focusmode .quad:not(.active),body.focusmode .qc:not(.active){display:none}
+.fnav{display:none;gap:10px;justify-content:space-between;align-items:center;margin-top:14px}
+body.focusmode .fnav{display:flex}
+.fnav span{font-weight:700;color:var(--muted)}
+
+/* barra inferior */
+.bar{position:fixed;left:0;right:0;bottom:0;padding:12px 14px 16px;display:flex;justify-content:center;gap:12px;background:linear-gradient(180deg,rgba(255,255,255,0),var(--bg2) 55%);pointer-events:none}
+body.contrast .bar{background:linear-gradient(180deg,rgba(0,0,0,0),#000 55%)}
+.bar button{pointer-events:auto;flex:1;max-width:240px}
+.btn{border:var(--bw) solid var(--line);background:var(--card);box-shadow:var(--shadow);border-radius:999px;padding:.7rem 1.2rem;font-weight:700;min-height:52px}
+.btn.primary{background:var(--primary);color:var(--primary-ink);border-color:transparent}
+body.contrast .btn.primary{border-color:#fff}
+.btn:disabled{opacity:.35;cursor:default}
+.btn.big{font-size:1.1rem;padding:.9rem 1.8rem}
+
+/* acessibilidade */
+dialog{border:0;border-radius:26px;background:var(--card);color:var(--ink);max-width:580px;width:94vw;padding:0;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+body.contrast dialog{border:3px solid #fff}
+dialog::backdrop{background:rgba(20,30,40,.55);backdrop-filter:blur(2px)}
+.dlgin{padding:22px 24px 24px}
+.dhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.dhead h2{margin:0;font-size:1.35rem}
+.x{width:46px;height:46px;border-radius:50%;border:0;background:var(--bg1);font-size:1.4rem;font-weight:700;line-height:1;display:grid;place-items:center}
+body.contrast .x{background:#000;border:2px solid #fff}
+.set{display:grid;gap:4px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid var(--line)}
+.row:last-of-type{border-bottom:0}
+.row span{font-weight:700}
+.seg{display:flex;gap:6px;flex-wrap:wrap;background:var(--bg1);padding:4px;border-radius:999px}
+body.contrast .seg{background:#000;border:2px solid #fff}
+.seg button{border:0;background:transparent;border-radius:999px;padding:.4rem .9rem;min-height:42px;font-weight:700}
+.seg button[aria-pressed="true"]{background:var(--primary);color:var(--primary-ink)}
+.toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg2);padding:.7rem 1.2rem;border-radius:999px;font-weight:700;display:none;z-index:9;box-shadow:var(--shadow);max-width:92vw;text-align:center}
+body.contrast .toast{background:#fff;color:#000}
+
+/* impressão / PDF */
+#printarea{display:none}
+@media print{
+  body>*:not(#printarea){display:none!important}
+  body{background:#fff;min-height:0}
+  #printarea{display:block;white-space:pre-wrap;font:12pt/1.5 Verdana,sans-serif;color:#000}
+}
+</style>
+</head>
+<body>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="wrap">
+  <div class="top">
+    <div class="brand"><div class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div><b>Curtigrama</b><small>Versão clínica</small></div></div>
+    <button class="pill" id="openSet" aria-haspopup="dialog"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.6 30.9A42 42 0 0 1 87.4 30.9"/><path d="M8.1 47.8A42 42 0 0 0 19.3 78.6"/><path d="M35.6 89.5A42 42 0 0 0 64.4 89.5"/><path d="M79.7 79.7A42 42 0 0 0 91.9 47.8"/><path d="M11 38Q50 64 89 38"/><path d="M50 51L28 84M50 51L72 84"/><circle cx="50" cy="29" r="9.5" fill="var(--sym)"/><circle cx="11" cy="38" r="5.5" fill="var(--sym)"/><circle cx="89" cy="38" r="5.5" fill="var(--sym)"/><circle cx="28" cy="84" r="5.5" fill="var(--sym)"/><circle cx="72" cy="84" r="5.5" fill="var(--sym)"/></svg> Acessibilidade</button>
+  </div>
+  <div class="progress" id="progress"></div>
+  <main id="main"></main>
+</div>
+<div class="bar"><button class="btn" id="prev">← Voltar</button><button class="btn primary" id="next">Avançar →</button></div>
+<div id="printarea" aria-hidden="true"></div>
+
+<dialog id="dlg" aria-labelledby="dlgT">
+  <div class="dlgin">
+    <div class="dhead"><h2 id="dlgT"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.6 30.9A42 42 0 0 1 87.4 30.9"/><path d="M8.1 47.8A42 42 0 0 0 19.3 78.6"/><path d="M35.6 89.5A42 42 0 0 0 64.4 89.5"/><path d="M79.7 79.7A42 42 0 0 0 91.9 47.8"/><path d="M11 38Q50 64 89 38"/><path d="M50 51L28 84M50 51L72 84"/><circle cx="50" cy="29" r="9.5" fill="var(--sym)"/><circle cx="11" cy="38" r="5.5" fill="var(--sym)"/><circle cx="89" cy="38" r="5.5" fill="var(--sym)"/><circle cx="28" cy="84" r="5.5" fill="var(--sym)"/><circle cx="72" cy="84" r="5.5" fill="var(--sym)"/></svg> Acessibilidade</h2><button class="x" id="xSet" aria-label="Fechar">✕</button></div>
+    <div class="set">
+      <div class="row"><span>Tamanho da letra</span><div class="seg"><button data-fs="-1" aria-label="Diminuir letra">A−</button><button data-fs="1" aria-label="Aumentar letra">A+</button></div></div>
+      <div class="row"><span>Fonte</span><div class="seg" data-group="font"><button data-v="atk">Atkinson</button><button data-v="lex">Lexend</button></div></div>
+      <div class="row"><span>Espaço entre linhas</span><div class="seg" data-group="lh"><button data-v="1.6">Normal</button><button data-v="2">Amplo</button></div></div>
+      <div class="row"><span>Espaço entre letras</span><div class="seg" data-group="ls"><button data-v="0">Normal</button><button data-v="0.08">Amplo</button></div></div>
+      <div class="row"><span>Alto contraste</span><div class="seg" data-group="contrast"><button data-v="0">Não</button><button data-v="1">Sim</button></div></div>
+      <div class="row"><span>Modo foco (um por vez)</span><div class="seg" data-group="focus"><button data-v="0">Não</button><button data-v="1">Sim</button></div></div>
+      <div class="row"><span>Reduzir movimento</span><div class="seg" data-group="calm"><button data-v="0">Não</button><button data-v="1">Sim</button></div></div>
+    </div>
+    <div class="callout soft" style="margin-top:12px">Atkinson ajuda na baixa visão; Lexend, na fluência de leitura (dislexia). Essas preferências ficam só neste aparelho.</div>
+    <p style="text-align:right;margin:14px 0 0"><button class="btn primary" id="closeSet">Pronto</button></p>
+  </div>
+</dialog>
+
+<dialog id="cdlg" aria-labelledby="cT"><div class="dlgin">
+  <div class="dhead"><h2 id="cT">Guarde o seu código</h2></div>
+  <p style="margin-top:0">Este código é a sua chave para <b>continuar depois</b>, em qualquer aparelho. Sem ele, não dá para retomar o exercício de onde você parou.</p>
+  <div class="bigcode" id="bigCode" aria-label="Seu código"></div>
+  <div class="callout"><span>📸 <b>Tire um print agora</b> ou toque em “Salvar como imagem” para guardar na galeria.</span></div>
+  <div class="actions"><button class="btn primary" id="cdImg">🖼 Salvar como imagem</button><button class="btn" id="cdCopy">📋 Copiar código</button></div>
+  <p style="text-align:center;margin:16px 0 0"><button class="btn primary big" id="cdOk">Já guardei meu código</button></p>
+</div></dialog>
+
+<dialog id="zdlg" aria-labelledby="zT"><div class="dlgin"><div class="dhead"><h2 id="zT"></h2><button class="x" id="xZ" aria-label="Fechar">✕</button></div><div class="ztxt" id="zBody"></div></div></dialog>
+
+<script>
+/* =====================================================================
+   CONFIGURAÇÃO: cole aqui a URL do app da web do Google Apps Script
+   (termina em /exec). Enquanto estiver vazio, o envio fica desativado.
+   ===================================================================== */
+const ENDPOINT="";
+
+const E1=[["Gosto e Faço","c1","O que você faz e gosta de fazer.","Ex.: ler, caminhar, cozinhar, conversar com amigos, cuidar de plantas."],["Gosto e Não Faço","c2","O que você gosta, mas não faz.","Ex.: viajar, aprender um instrumento, praticar um esporte, fazer um curso."],["Não Gosto e Faço","c3","O que você faz, mas não gosta.","Ex.: acordar muito cedo, tarefas repetitivas, dizer “sim” quando queria dizer “não”."],["Não Gosto e Não Faço","c4","O que você não gosta e também não faz.","Ex.: falar em público, ficar muito tempo parado, trabalhar sem contato com ninguém."]];
+const E2=[["Gosto e Sei Fazer","c1","O que você gosta e sabe fazer.","Ex.: organizar, explicar coisas, desenhar, ouvir as pessoas."],["Gosto e Não Sei Fazer","c2","O que você gosta, mas não sabe fazer.","Ex.: programar, falar outro idioma, editar vídeo, tocar um instrumento."],["Não Gosto e Sei Fazer","c3","O que você sabe fazer, mas não gosta.","Ex.: fazer planilhas, atender telefone, resolver problemas dos outros."],["Não Gosto e Não Sei Fazer","c4","O que você não gosta e também não sabe fazer.","Ex.: cálculos complexos, consertar aparelhos, vender."]];
+const Q=["Escolha um dos oito quadrantes abaixo. O que ele te diz sobre você?","O que te impede de fazer o que está em “Gosto e Não Faço”?","Quem ou o que te levou a fazer o que você não gosta?","Se pudesse mover uma coisa de quadrante, qual seria? O que precisaria acontecer?"];
+const STEPS=["Início","Etapa 1","Etapa 2","Matriz","Perguntas","Salvar"];
+const DK="curti-clinico-draft";
+const PART=new Set(["de","da","do","das","dos","e"]);
+
+const today=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+const brDate=s=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||"");return m?`${m[3]}/${m[2]}/${m[1]}`:(s||"")};
+const AL="ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+const newId=()=>{const a=new Uint8Array(8);(window.crypto&&crypto.getRandomValues)?crypto.getRandomValues(a):a.forEach((_,i)=>a[i]=Math.floor(Math.random()*256));const s=Array.from(a,x=>AL[x%AL.length]).join("");return s.slice(0,4)+"-"+s.slice(4)};
+const normCode=c=>{const s=(c||"").toUpperCase().replace(/[^A-Z0-9]/g,"");return s.length===8?s.slice(0,4)+"-"+s.slice(4):s};
+const initials=n=>(n||"").trim().split(/\s+/).filter(w=>w&&!PART.has(w.toLowerCase())).map(w=>w[0].toUpperCase()).join("");
+
+const blank=()=>({e1:["","","",""],e2:["","","",""],q:["","","",""],w:"",m:"",l:""});
+let data=blank();
+let ident={nome:"",data:today(),ctx:"",consent:false};
+let sid=newId(),finished=false,sync={state:"idle",t:""};
+let step=0,fIdx=0,mview=(innerWidth>=900?"both":"1"),q1s=0,q4e=1,tmSend=null;
+
+const S={fs:18,font:"atk",lh:"1.6",ls:"0",contrast:"0",focus:"0",calm:"0"};
+try{Object.assign(S,JSON.parse(localStorage.getItem("curti-a11y")||"{}"))}catch(e){}
+function applyS(){
+  const r=document.documentElement.style;
+  r.setProperty("--fs",S.fs+"px");r.setProperty("--lh",S.lh);r.setProperty("--ls",S.ls);r.setProperty("--ws",S.ls==="0"?"0":"0.16");
+  document.body.classList.toggle("lexend",S.font==="lex");
+  document.body.classList.toggle("contrast",S.contrast==="1");
+  document.body.classList.toggle("focusmode",S.focus==="1");
+  document.body.classList.toggle("calm",S.calm==="1");
+  document.querySelectorAll(".seg[data-group]").forEach(g=>g.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(S[g.dataset.group]===b.dataset.v))));
+  try{localStorage.setItem("curti-a11y",JSON.stringify(S))}catch(e){}
+}
+const esc=t=>String(t==null?"":t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const hasContent=()=>[...data.e1,...data.e2,...data.q,data.w,data.m,data.l].some(x=>x.trim());
+
+/* ---------- rascunho local ---------- */
+function saveDraft(){try{localStorage.setItem(DK,JSON.stringify({sid,ident,data,step,finished}))}catch(e){}}
+function loadDraft(){try{const d=JSON.parse(localStorage.getItem(DK)||"null");if(d&&d.data&&(d.ident&&d.ident.nome||[...d.data.e1,...d.data.e2].some(x=>x&&x.trim())))return d}catch(e){}return null}
+function clearDraft(){try{localStorage.removeItem(DK)}catch(e){}}
+
+/* ---------- envio ao Google Sheets ---------- */
+const canSend=()=>!!ENDPOINT&&ident.consent&&ident.nome.trim().length>0;
+function payload(status){
+  return {id:sid,iniciais:initials(ident.nome),dataRealizacao:ident.data,contexto:ident.ctx,status,etapa:STEPS[step],
+    e1:data.e1,e2:data.e2,m:data.m,w:data.w,q:data.q,l:data.l,enviadoEm:new Date().toISOString()};
+}
+async function send(status,ka){
+  if(!canSend())return false;
+  sync={state:"sending",t:""};paintSync();
+  try{
+    const r=await fetch(ENDPOINT,{method:"POST",body:JSON.stringify(payload(status)),keepalive:!!ka});
+    const j=await r.json();
+    if(!j||!j.ok)throw new Error("falha");
+    sync={state:"ok",t:new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})};
+    paintSync();return true;
+  }catch(e){sync={state:"err",t:""};paintSync();return false}
+}
+function queueSend(){if(!canSend())return;clearTimeout(tmSend);tmSend=setTimeout(()=>send(finished?"finalizado":"em andamento"),3000)}
+function syncText(){
+  if(!ENDPOINT||!ident.consent)return "";
+  if(sync.state==="sending")return "Enviando…";
+  if(sync.state==="ok")return "✓ Enviado à sua psicóloga às "+sync.t;
+  if(sync.state==="err")return "Não foi possível enviar agora. Seu texto continua salvo neste aparelho.";
+  return "Envio automático ativo.";
+}
+function paintSync(){
+  const a=document.getElementById("syncTop"),b=document.getElementById("syncMsg");
+  if(a){
+    if(step>0&&ENDPOINT&&ident.consent){
+      a.innerHTML=`<span>🔑 Seu código para continuar depois: <b>${esc(sid)}</b> <span style="color:var(--muted)">${esc(syncText())}</span></span><span style="display:flex;gap:6px;flex-wrap:wrap"><button type="button" id="cpCode">Copiar</button><button type="button" id="imgCode">Salvar imagem</button></span>`;
+      document.getElementById("cpCode").onclick=copyCode;
+      document.getElementById("imgCode").onclick=saveCodeImage;
+    }else a.innerHTML="";
+  }
+  if(b){b.textContent=syncText();b.className="stat "+(sync.state==="ok"?"ok":sync.state==="err"?"err":"")}
+}
+
+/* ---------- código: imagem e destaque ---------- */
+async function saveCodeImage(){
+  const W=1080,H=720,c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d");
+  x.fillStyle="#ffffff";x.fillRect(0,0,W,H);
+  const cols=["#2E8B57","#2F6DB5","#C96F1A","#7B4FA0"];cols.forEach((k,i)=>{x.fillStyle=k;x.fillRect(i*W/4,0,W/4,18)});
+  x.textAlign="center";x.fillStyle="#1c2733";
+  x.font="700 54px Verdana,sans-serif";x.fillText("Curtigrama",W/2,110);
+  x.font="400 34px Verdana,sans-serif";x.fillStyle="#55616e";x.fillText("Meu código para continuar depois",W/2,170);
+  x.fillStyle="#eaf6ef";x.fillRect(90,215,W-180,170);x.strokeStyle="#2E8B57";x.lineWidth=5;x.setLineDash([16,10]);x.strokeRect(90,215,W-180,170);x.setLineDash([]);
+  x.fillStyle="#1c2733";x.font="700 100px 'Courier New',monospace";x.fillText(sid,W/2,332);
+  x.font="400 30px Verdana,sans-serif";x.fillStyle="#1c2733";
+  ["Para continuar: abra o link do Curtigrama,","toque em “Já comecei antes e quero continuar”","e digite este código e o seu nome completo."].forEach((t,i)=>x.fillText(t,W/2,455+i*44));
+  x.font="400 24px Verdana,sans-serif";x.fillStyle="#55616e";x.fillText("Feito em "+brDate(ident.data||today()),W/2,650);
+  const blob=await new Promise(r=>c.toBlob(r,"image/png"));
+  if(!blob){toast("Não foi possível criar a imagem. Tire um print da tela.");return}
+  const f=new File([blob],"curtigrama_codigo_"+sid+".png",{type:"image/png"});
+  try{
+    if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:"Meu código do Curtigrama"});return}
+  }catch(e){if(e&&e.name==="AbortError")return}
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=f.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+  toast("Imagem baixada. Procure em “Downloads” ou na galeria.");
+}
+async function copyCode(){try{await navigator.clipboard.writeText(sid);toast("Código copiado!")}catch(e){toast("Anote o código: "+sid)}}
+function showCode(){
+  if(!(ENDPOINT&&ident.consent))return;
+  document.getElementById("bigCode").textContent=sid;
+  send("em andamento");               // garante que o código já exista na planilha
+  const d=document.getElementById("cdlg");if(!d.open)d.showModal();
+}
+
+/* ---------- texto final ---------- */
+function buildText(){
+  const L=[];
+  L.push("CURTIGRAMA – VERSÃO CLÍNICA");
+  L.push("Nome: "+(ident.nome||"(não informado)"));
+  L.push("Data de realização: "+brDate(ident.data));
+  if(ident.consent&&ENDPOINT)L.push("Código para continuar: "+sid);
+  if(ident.ctx)L.push("Contexto: "+ident.ctx);
+  L.push("","ETAPA 1");
+  E1.forEach((q,n)=>L.push(q[0]+":",(data.e1[n]||"(em branco)"),""));
+  L.push("ETAPA 2");
+  E2.forEach((q,n)=>L.push(q[0]+":",(data.e2[n]||"(em branco)"),""));
+  L.push("COMO FOI PREENCHER",(data.w||"(em branco)"),"");
+  L.push("PERGUNTAS PARA REFLETIR");
+  Q.forEach((q,n)=>L.push(q,(data.q[n]||"(em branco)"),""));
+  L.push("O QUE QUERO LEVAR PARA A PRÓXIMA SESSÃO",(data.l||"(em branco)"));
+  return L.join("\n");
+}
+function fileName(){return "curtigrama_"+(initials(ident.nome)||"cliente")+"_"+(ident.data||today())+".txt"}
+function downloadTxt(){
+  const blob=new Blob(["﻿"+buildText()],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=fileName();
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+  toast("Arquivo baixado. Procure em “Downloads”.");
+}
+function printPdf(){document.getElementById("printarea").textContent=buildText();window.print()}
+async function copyTxt(){try{await navigator.clipboard.writeText(buildText());toast("Copiado! Cole no seu bloco de notas.")}catch(e){toast("Não foi possível copiar. Use o botão de baixar.")}}
+
+/* ---------- telas ---------- */
+function fnav(tot){return `<div class="fnav"><button class="btn" id="fp">← Anterior</button><span aria-live="polite">${fIdx+1} de ${tot}</span><button class="btn" id="fn">Próximo →</button></div>`}
+function quads(set,key){
+  return `<div class="grid">${set.map((q,n)=>`<div class="quad ${q[1]} ${n===fIdx?'active':''}"><label for="${key}${n}">${q[0]}</label><span class="hint">${q[2]}</span><span class="eg">${q[3]}</span><textarea id="${key}${n}" data-k="${key}" data-n="${n}" placeholder="Escreva aqui, em tópicos ou em texto corrido.">${esc(data[key][n])}</textarea></div>`).join("")}</div>${fnav(4)}`;
+}
+function matrix(e,mini){
+  const set=e===1?E1:E2,d=e===1?data.e1:data.e2;
+  const cols=e===1?["Faço","Não faço"]:["Sei fazer","Não sei fazer"];
+  const cell=n=>`<div class="mcell ${set[n][1]}" role="button" tabindex="0" data-z="${e}-${n}" aria-label="Ampliar: ${set[n][0]}"><span class="t">${set[n][0]}</span><div class="txt">${d[n]?esc(d[n]):'<span class="empty">(em branco)</span>'}</div></div>`;
+  return `<div class="mgrid ${mini?'mini':''}"><span></span><span class="ax">${cols[0]}</span><span class="ax">${cols[1]}</span><span class="ay">Gosto</span>${cell(0)}${cell(1)}<span class="ay">Não gosto</span>${cell(2)}${cell(3)}</div>`;
+}
+function ref(label,txt,c){return `<div class="refbox ${c}"><div class="rl">Do seu Curtigrama · ${label}</div><div class="rt">${txt&&txt.trim()?esc(txt):'<span class="empty">(você deixou este quadrante em branco)</span>'}</div></div>`}
+function openZoom(id){
+  const [e,n]=id.split("-").map(Number);const set=e===1?E1:E2,d=e===1?data.e1:data.e2;
+  document.getElementById("zT").textContent=set[n][0];
+  document.getElementById("zBody").innerHTML=d[n]?esc(d[n]):'<span class="empty">(em branco)</span>';
+  document.getElementById("zdlg").showModal();
+}
+const startValid=()=>ident.nome.trim().length>1&&!!ident.ctx&&!!ident.data;
+
+function render(){
+  const m=document.getElementById("main");let h="";
+  if(step===0){
+    const dr=loadDraft();
+    h=`<div class="panel">
+    <h2>Um espaço para pensar sobre você</h2>
+    <p class="lead">O Curtigrama é um exercício de reflexão sobre o que você gosta, faz e sabe fazer. Não é um teste psicológico e não existem respostas certas ou erradas. Você vai fazê-lo por conta própria, no seu ritmo, e este texto vai te guiando em cada passo.</p>
+    ${dr?`<div class="banner" role="group" aria-label="Rascunho encontrado"><span>Encontramos um rascunho salvo neste aparelho${dr.ident&&dr.ident.nome?` (${esc(initials(dr.ident.nome))})`:""}. Quer continuar de onde parou?</span><span style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" id="resume">Continuar</button><button class="btn" id="discard">Apagar e começar de novo</button></span></div>`:""}
+    ${ENDPOINT?`<details class="resume"><summary>Já comecei antes e quero continuar</summary>
+      <p style="margin-top:8px">Digite o código que apareceu para você (ex.: K7M2-QX9P) e o seu nome completo, como escreveu da primeira vez.</p>
+      <div class="fgrid"><div class="field"><label for="rsCode">Código</label><input type="text" id="rsCode" autocapitalize="characters" autocomplete="off" placeholder="XXXX-XXXX"></div>
+      <div class="field"><label for="rsNome">Nome completo</label><input type="text" id="rsNome" autocomplete="name"></div></div>
+      <button class="btn primary" id="rsGo">Continuar de onde parei</button><div id="rsMsg" class="stat" aria-live="polite"></div></details>`:""}
+    <div class="how">
+      <div><div class="n">1</div><b>Escreva</b><span>Preencha os quadrantes nas Etapas 1 e 2, do jeito que preferir. Há exemplos para te inspirar.</span></div>
+      <div><div class="n">2</div><b>Observe</b><span>Veja suas duas etapas lado a lado e note o que se repete e o que muda.</span></div>
+      <div><div class="n">3</div><b>Reflita</b><span>Responda às perguntas com calma. Se alguma pesar, pule e leve para a sessão.</span></div>
+    </div>
+    <details class="tips alt" open><summary>Antes de começar</summary><ul>
+      <li><b>Tempo:</b> reserve de 30 a 40 minutos. Dá para pausar e continuar depois: ao autorizar o envio, você recebe um código que retoma o exercício em qualquer aparelho (guarde-o com um print). Sem a autorização, o rascunho fica só neste aparelho.</li>
+      <li><b>Lugar:</b> escolha um canto tranquilo, sem pressa e sem interrupções. Se abriu o link por um aplicativo (WhatsApp, Instagram), prefira abrir no Chrome ou no Safari e anote o seu código.</li>
+      <li><b>Jeito de escrever:</b> palavras soltas, tópicos ou texto corrido. Escreva a primeira coisa que vier.</li>
+      <li><b>Pode deixar em branco</b> o que não quiser ou não souber responder.</li>
+      <li><b>Se algo mexer muito com você,</b> pare, respire e anote para conversar na sua próxima sessão.</li></ul></details>
+    <div class="sub">Seus dados</div>
+    <div class="fgrid">
+      <div class="field"><label for="idNome">Nome completo</label><input type="text" id="idNome" autocomplete="name" value="${esc(ident.nome)}"><small>Aparece só no arquivo que você salvar. Na planilha da psicóloga vão apenas as suas iniciais.</small></div>
+      <div class="field"><label for="idData">Data de hoje</label><input type="date" id="idData" value="${esc(ident.data)}"></div>
+    </div>
+    <div class="field"><label for="idCtx">Em que atendimento você está fazendo este exercício?</label><select id="idCtx"><option value="">Escolha uma opção</option><option${ident.ctx==="Orientação profissional e de carreira (OPC)"?" selected":""}>Orientação profissional e de carreira (OPC)</option><option${ident.ctx==="Psicoterapia"?" selected":""}>Psicoterapia</option><option${ident.ctx==="Outro"?" selected":""}>Outro</option></select></div>
+    <div class="consent"><input type="checkbox" id="idConsent" ${ident.consent?"checked":""}${ENDPOINT?"":" disabled"}><label for="idConsent"><b>Autorizo o envio das minhas respostas à minha psicóloga</b>, para que ela possa acompanhar o meu atendimento. O envio é automático enquanto eu escrevo. Entendo que o texto livre pode conter informações pessoais e que posso pedir a exclusão a qualquer momento. ${ENDPOINT?"":"<i>(Envio desativado nesta versão.)</i>"}</label></div>
+    <div class="callout soft">Se você não marcar a autorização, nada é enviado: o que você escreve fica só neste aparelho, e você poderá baixar uma cópia no final.</div>
+    <div class="callout soft">Adaptação digital de técnica tradicionalmente utilizada em Orientação Profissional e de Carreira; autoria original não identificada. Uso didático e clínico.</div>
+    <p style="text-align:center;margin:20px 0 4px"><button class="btn primary big" id="start" ${startValid()?"":"disabled"}>Começar →</button></p>
+  </div>`;
+  }
+  if(step===1)h=`<h2>Etapa 1 · O que eu gosto e faço</h2><p class="lead">Escreva em cada quadro o que se encaixa. Pode ser uma lista ou um texto corrido, e pode deixar em branco o que preferir.</p>
+    <details class="tips" open><summary>Como fazer esta etapa (cerca de 10 minutos)</summary><ol>
+      <li>Leia o nome do quadro e a explicação logo abaixo dele.</li>
+      <li>Pense em várias áreas da vida: estudo, trabalho, casa, amizades, família, lazer, corpo e saúde.</li>
+      <li>Anote o que vier. Não precisa ser bonito nem completo, e uma coisa pode aparecer em mais de um quadro.</li>
+      <li>Os exemplos em itálico são só inspiração. Escreva o que é verdade para você.</li>
+      <li>Quando terminar um quadro, toque em “Avançar” para ir à próxima etapa.</li></ol></details>`+quads(E1,"e1");
+  if(step===2)h=`<h2>Etapa 2 · O que eu sei fazer</h2><p class="lead">Agora, a mesma ideia, olhando para o que você sabe fazer.</p>
+    <details class="tips" open><summary>Como fazer esta etapa (cerca de 10 minutos)</summary><ol>
+      <li>“Saber fazer” inclui o que você aprendeu na escola, no trabalho, em cursos e também na vida.</li>
+      <li>Pense em habilidades de pessoas (ouvir, explicar), de coisas (consertar, montar), de ideias (pesquisar, criar) e de organização.</li>
+      <li>Se estiver difícil, lembre de elogios que já recebeu ou de situações em que se sentiu capaz.</li>
+      <li>Confira se algo que você escreveu na Etapa 1 aparece de novo aqui.</li></ol></details>`+quads(E2,"e2");
+  if(step===3){
+    h=`<h2>Minha matriz</h2><p class="lead">Uma pausa para olhar. Aqui estão as suas duas etapas, uma abaixo da outra: role a tela para ver tudo. Não precisa escrever nada.</p>
+    <details class="tips" open><summary>O que observar</summary><ol>
+      <li>O que se repete nas duas etapas?</li>
+      <li>O que aparece em uma e some na outra?</li>
+      <li>Há algo que você gosta e sabe fazer, mas não faz?</li></ol></details>
+    <section class="mx"><div class="sub">Etapa 1 · Gosto e faço</div>${matrix(1,true)}</section>
+    <section class="mx"><div class="sub">Etapa 2 · Sei fazer</div>${matrix(2,true)}</section>
+    <p class="zhint">Toque em um quadrante para ampliar o texto. Quando terminar de olhar, avance para as perguntas.</p>`;
+  }
+  if(step===4){
+    const all=[...E1.map((q,n)=>[q[0],q[1],data.e1[n]]),...E2.map((q,n)=>[q[0],q[1],data.e2[n]])];
+    const refs=[
+      `<div class="refgrid">${all.map(a=>ref(a[0],a[2],a[1])).join("")}</div>`,
+      ref("Gosto e Não Faço",data.e1[1],"c2"),
+      ref("Não Gosto e Faço",data.e1[2],"c3"),
+      `<div class="sub" style="margin-top:0">Etapa 1</div>${matrix(1,true)}<div class="sub">Etapa 2</div>${matrix(2,true)}`
+    ];
+    h=`<h2>Perguntas para refletir</h2>
+    <p class="lead">Este é o momento de pensar sobre o que você escreveu. Vá com calma: não há pressa nem resposta certa.</p>
+    <details class="tips" open><summary>Como responder (cerca de 10 a 15 minutos)</summary><ol>
+      <li>Comece pela primeira caixa, “Como foi?”, e depois siga a ordem das perguntas.</li>
+      <li>Em cada pergunta, releia o que você escreveu (aparece logo acima da sua resposta).</li>
+      <li>Escreva a primeira ideia que vier. Depois, se quiser, complete.</li>
+      <li>Respostas curtas servem. Escreva com as suas palavras.</li>
+      <li>Se uma pergunta pesar, pule e volte depois, ou anote para levar à sessão.</li></ol></details>
+    <div class="callout ok"><span>✍️ <b>As perguntas são a parte que dá sentido ao que você listou.</b> Escreva com as suas palavras, mesmo que sejam só duas ou três linhas: o que você registrar aqui vira ponto de partida para a conversa na sessão.</span></div>
+    <div class="step-h">Primeiro: como foi?</div>
+    <div class="warm ${fIdx===0?'active':''}"><div class="qt">Antes das perguntas, observe como foi preencher o Curtigrama.</div>
+      <ul><li>O que você sentiu enquanto escrevia?</li><li>Algum quadrante foi mais fácil ou mais difícil de preencher? Qual?</li><li>Algo te surpreendeu?</li></ul>
+      <label class="sr" for="w0">Como foi preencher</label>
+      <textarea id="w0" data-k="w" placeholder="Anote o que quiser sobre como foi (opcional).">${esc(data.w)}</textarea></div>
+    <div class="step-h">Agora, as perguntas</div>
+    <div class="qs">${Q.map((q,n)=>`<div class="qc ${fIdx===n+1?'active':''}"><div class="qt"><span class="num">${n+1}</span><label for="q${n}">${q}</label></div>${refs[n]}<div class="rlab">Sua reflexão</div><textarea id="q${n}" data-k="q" data-n="${n}" placeholder="Escreva aqui (opcional).">${esc(data.q[n])}</textarea></div>`).join("")}</div>${fnav(5)}`;
+  }
+  if(step===5){
+    const consentBox=ENDPOINT?`<div class="consent"><input type="checkbox" id="idConsent2" ${ident.consent?"checked":""}><label for="idConsent2"><b>Autorizo o envio das minhas respostas à minha psicóloga.</b> Se marcar agora, enviamos tudo o que você escreveu.</label></div>`:"";
+    const codePanel=(ENDPOINT&&ident.consent)?`<div class="codepanel"><div class="sub">🔑 Seu código para continuar ou rever depois</div><div class="bigcode">${esc(sid)}</div><p style="margin:0 0 8px">Guarde este código: tire um print ou salve como imagem.</p><div class="actions"><button class="btn primary" id="cpImg2">🖼 Salvar como imagem</button><button class="btn" id="cpCopy2">📋 Copiar código</button></div></div>`:"";
+    h=`<h2>Salvar meu Curtigrama</h2>
+    <p class="lead">Você chegou ao fim. Antes de sair, guarde o que escreveu. Siga os três passos abaixo.</p>${codePanel}
+    <div class="panel"><div class="sub">1. O que eu quero levar para a próxima sessão?</div>
+      <p class="lead" style="margin-top:0">Escreva o que você gostaria de conversar com a sua psicóloga a partir deste exercício (opcional).</p>
+      <label class="sr" for="lev">O que quero levar para a próxima sessão</label>
+      <div class="notes" style="margin-top:0"><textarea id="lev" data-k="l" placeholder="Ex.: uma dúvida, algo que me surpreendeu, algo que quero entender melhor.">${esc(data.l)}</textarea></div></div>
+    <div class="panel"><div class="sub">2. Guarde uma cópia para você</div>
+      <p style="margin-top:0">Recomendamos baixar o arquivo agora. Assim você tem o seu Curtigrama mesmo sem internet e pode reler quando quiser.</p>
+      <div class="actions"><button class="btn primary" id="dl">⬇ Baixar arquivo (.txt)</button><button class="btn" id="pr">🖨 Imprimir ou salvar em PDF</button><button class="btn" id="copy">📋 Copiar texto</button></div></div>
+    <div class="panel"><div class="sub">3. Concluir${ENDPOINT?" e enviar à minha psicóloga":""}</div>
+      ${consentBox}
+      <div class="actions"><button class="btn primary" id="fin">${finished?"Enviar novamente":(ident.consent&&ENDPOINT?"Concluir e enviar":"Concluir")}</button></div>
+      <div id="syncMsg" class="stat" aria-live="polite"></div>
+      ${finished?`<div class="callout ok" style="margin-top:12px">✔ Pronto! Seu Curtigrama foi concluído. Leve o arquivo ou o que quiser conversar para a sua próxima sessão.</div>`:""}
+    </div>
+    <p style="text-align:center"><button class="btn" id="wipe">Apagar meus dados deste aparelho</button></p>
+    <p class="zhint">Use esta opção se estiver em um computador compartilhado. Ela não apaga o que já foi enviado à psicóloga.</p>`;
+  }
+  m.innerHTML=h;
+  const pct=step/(STEPS.length-1)*100;
+  document.getElementById("progress").innerHTML=`<div class="plabel"><span>Passo ${step+1} de ${STEPS.length}</span><span>${STEPS[step]}</span></div><div class="track" role="progressbar" aria-valuemin="1" aria-valuemax="${STEPS.length}" aria-valuenow="${step+1}"><div style="width:${Math.max(pct,6)}%"></div></div><div class="dots">${STEPS.map((s,n)=>`<button data-s="${n}" data-n="${n+1}" ${n===step?'aria-current="step"':''}><span>${s}</span></button>`).join("")}</div><div class="codebar" id="syncTop" aria-live="polite"></div>`;
+  document.querySelectorAll(".dots button").forEach(b=>b.onclick=()=>{if(step===0&&!startValid()){toast("Preencha nome, data e atendimento para começar.");return}go(+b.dataset.s)});
+  m.querySelectorAll("textarea").forEach(t=>t.oninput=()=>{
+    if(t.dataset.k==="w"||t.dataset.k==="m"||t.dataset.k==="l")data[t.dataset.k]=t.value;else data[t.dataset.k][+t.dataset.n]=t.value;
+    saveDraft();queueSend()});
+  m.querySelectorAll("[data-z]").forEach(c=>{c.onclick=()=>openZoom(c.dataset.z);c.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openZoom(c.dataset.z)}}});
+
+  if(step===0){
+    const st=document.getElementById("start");
+    const chk=()=>{st.disabled=!startValid()};
+    document.getElementById("idNome").oninput=e=>{ident.nome=e.target.value;chk();saveDraft()};
+    document.getElementById("idData").oninput=e=>{ident.data=e.target.value;chk();saveDraft()};
+    document.getElementById("idCtx").onchange=e=>{ident.ctx=e.target.value;chk();saveDraft()};
+    document.getElementById("idConsent").onchange=e=>{ident.consent=e.target.checked;saveDraft()};
+    st.onclick=()=>{if(startValid()){go(1);showCode()}};
+    const rg=document.getElementById("rsGo");
+    if(rg)rg.onclick=async()=>{
+      const code=normCode(document.getElementById("rsCode").value),nome=document.getElementById("rsNome").value.trim(),msg=document.getElementById("rsMsg");
+      if(code.length!==9||!nome){msg.className="stat err";msg.textContent="Preencha o código completo e o nome.";return}
+      msg.className="stat";msg.textContent="Buscando…";
+      try{
+        const r=await fetch(ENDPOINT+"?id="+encodeURIComponent(code)+"&ini="+encodeURIComponent(initials(nome)));
+        const j=await r.json();
+        if(!j||!j.ok)throw new Error("nf");
+        const d=j.d;
+        sid=code;ident={nome:nome,data:d.dataRealizacao||today(),ctx:d.contexto||"",consent:true};
+        data={e1:[0,1,2,3].map(i=>d.e1[i]||""),e2:[0,1,2,3].map(i=>d.e2[i]||""),q:[0,1,2,3].map(i=>d.q[i]||""),w:d.w||"",m:d.m||"",l:d.l||""};
+        finished=d.status==="finalizado";
+        const k=STEPS.indexOf(d.etapa);saveDraft();go(k>0?k:1);toast("Pronto! Você voltou de onde parou.");
+      }catch(e){msg.className="stat err";msg.textContent="Não encontramos. Confira o código e o nome (igual ao que você escreveu antes) e tente de novo."}
+    };
+    const rs=document.getElementById("resume");
+    if(rs){
+      rs.onclick=()=>{const d=loadDraft();if(!d)return;sid=d.sid||sid;ident=Object.assign(ident,d.ident||{});data=Object.assign(blank(),d.data);finished=!!d.finished;go(Math.min(Math.max(d.step||1,1),5))};
+      document.getElementById("discard").onclick=()=>{clearDraft();render()};
+    }
+  }
+  const fp=document.getElementById("fp"),fn=document.getElementById("fn");
+  const tot=step===4?5:4;
+  if(fp){fp.disabled=fIdx===0;fn.disabled=fIdx===tot-1;fp.onclick=()=>{fIdx--;render();focusTA()};fn.onclick=()=>{fIdx++;render();focusTA()}}
+
+  if(step===5){
+    document.getElementById("dl").onclick=downloadTxt;
+    document.getElementById("pr").onclick=printPdf;
+    document.getElementById("copy").onclick=copyTxt;
+    const c2=document.getElementById("idConsent2");
+    if(c2)c2.onchange=e=>{ident.consent=e.target.checked;saveDraft();render();if(ident.consent)showCode()};
+    const i2=document.getElementById("cpImg2");if(i2){i2.onclick=saveCodeImage;document.getElementById("cpCopy2").onclick=copyCode}
+    document.getElementById("fin").onclick=async()=>{
+      finished=true;saveDraft();
+      if(canSend()){
+        const ok=await send("finalizado");
+        render();
+        toast(ok?"Concluído e enviado!":"Concluído, mas o envio falhou. Baixe o arquivo e tente de novo.");
+      }else{render();toast("Concluído! Baixe seu arquivo para guardar.")}
+    };
+    document.getElementById("wipe").onclick=()=>{
+      if(confirm("Apagar tudo o que você escreveu deste aparelho? Se ainda não baixou o arquivo, baixe antes.")){
+        clearTimeout(tmSend);clearDraft();data=blank();ident={nome:"",data:today(),ctx:"",consent:false};sid=newId();finished=false;sync={state:"idle",t:""};go(0);toast("Dados apagados deste aparelho.");
+      }
+    };
+  }
+  paintSync();
+  document.querySelector(".bar").style.display=step===0?"none":"flex";
+  document.getElementById("prev").disabled=step===0;
+  const nx=document.getElementById("next");
+  nx.textContent=step===0?"Começar →":(step===STEPS.length-1?"Fim":(step===4?"Salvar →":"Avançar →"));
+  nx.disabled=step===STEPS.length-1;
+}
+function go(n){
+  step=n;fIdx=0;render();window.scrollTo(0,0);
+  if(n===3){const t=document.querySelector('.mseg');if(t)t.scrollIntoView({block:'start'})}
+  if(n>0){saveDraft();if(canSend()&&hasContent()){clearTimeout(tmSend);send(finished?"finalizado":"em andamento")}}
+}
+function focusTA(){const a=document.querySelector(".active textarea");if(a)a.focus()}
+function toast(t){const e=document.getElementById("toast");e.textContent=t;e.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display="none",3200)}
+document.getElementById("prev").onclick=()=>{if(step>0)go(step-1)};
+document.getElementById("next").onclick=()=>{if(step<STEPS.length-1)go(step+1)};
+const dlg=document.getElementById("dlg");
+const closeDlg=()=>dlg.close();
+document.getElementById("openSet").onclick=()=>dlg.showModal();
+document.getElementById("closeSet").onclick=closeDlg;
+document.getElementById("xSet").onclick=closeDlg;
+document.getElementById("cdImg").onclick=saveCodeImage;
+document.getElementById("cdCopy").onclick=copyCode;
+document.getElementById("cdOk").onclick=()=>document.getElementById("cdlg").close();
+const zd=document.getElementById("zdlg");
+document.getElementById("xZ").onclick=()=>zd.close();
+zd.addEventListener("click",e=>{if(e.target===zd)zd.close()});
+window.addEventListener("resize",()=>{if(step===3)render()});
+dlg.addEventListener("click",e=>{if(e.target===dlg)closeDlg()});
+dlg.querySelectorAll("[data-fs]").forEach(b=>b.onclick=()=>{S.fs=Math.min(30,Math.max(15,S.fs+2*(+b.dataset.fs)));applyS()});
+dlg.querySelectorAll(".seg[data-group] button").forEach(b=>b.onclick=()=>{S[b.parentElement.dataset.group]=b.dataset.v;applyS();render()});
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden"){saveDraft();if(canSend()&&hasContent()){clearTimeout(tmSend);send(finished?"finalizado":"em andamento",true)}}});
+window.addEventListener("pagehide",()=>{saveDraft()});
+window.addEventListener("beforeunload",e=>{if(hasContent()&&!finished&&!(sync.state==="ok")){e.preventDefault();e.returnValue=""}});
+applyS();render();
+</script>
+</body>
+</html>
